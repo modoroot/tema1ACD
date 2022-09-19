@@ -1,4 +1,4 @@
-package acd.tema1.clasefile;
+package acd.tema1.ficheros;
 
 import java.io.File;
 import java.io.FileFilter;
