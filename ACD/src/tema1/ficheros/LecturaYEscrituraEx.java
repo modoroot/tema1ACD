@@ -1,4 +1,4 @@
-package acd.tema1.lecturayescritura;
+package tema1.ficheros;
 
 import java.io.BufferedReader;
 import java.io.File;
