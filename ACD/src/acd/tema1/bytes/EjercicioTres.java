@@ -16,12 +16,12 @@ public class EjercicioTres {
 
 	public static void main(String[] args) {
 		EjercicioTres ejercicioTres = new EjercicioTres();
-		//ejercicioTres.copiarImagen();
-		ejercicioTres.apDos();
+		ejercicioTres.copiarImagen();
+		//ejercicioTres.apDos();
 	}
 	public void copiarImagen() {
-		File origen = new File("/home/amna/Escritorio/of_luis.jpg");
-		File destino = new File("/home/amna/Escritorio/of_luis_copia.jpg");
+		File origen = new File("/home/amna/Escritorio/ejemplo.png");
+		File destino = new File("/home/amna/Escritorio/ejemplo_copia.png");
 
 		try {
 			InputStream in = new FileInputStream(origen);
@@ -71,6 +71,9 @@ public class EjercicioTres {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
+
+	}
+	public void apTres() {
 
 	}
 }
