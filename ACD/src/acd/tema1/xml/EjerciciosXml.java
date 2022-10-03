@@ -33,6 +33,10 @@ public class EjerciciosXml {
 		tagLibreria.appendChild(tagNombre);
 		tagNombre.setTextContent("Librería Pepe");
 		
+		Element tagDireccion = doc.createElement("dirección");
+		tagLibreria.appendChild(tagDireccion);
+		tagDireccion.setTextContent("C/ Amiel 12");
+		
 		Element tagLibros = doc.createElement("libros");
 		tagLibreria.appendChild(tagLibros);
 		
@@ -71,7 +75,19 @@ public class EjerciciosXml {
 		Element tagAutor3 = doc.createElement("autor");
 		tagLibro3.appendChild(tagAutor3);
 		tagAutor3.setTextContent("Pedro Calderón de la Barca");
-
+		
+		Element tagLibro4 = doc.createElement("libro");
+		tagLibros.appendChild(tagLibro4);
+		tagLibro4.setAttribute("isbn", "8901234567");
+		
+		Element tagTitulo4  =doc.createElement("titulo");
+		tagLibro4.appendChild(tagTitulo4);
+		tagTitulo4.setTextContent("100 años de soledad");
+		
+		Element tagAutor4 = doc.createElement("autor");
+		tagLibro4.appendChild(tagAutor4);
+		tagAutor4.setTextContent("Gabriel García Márquez");
+		
 		ejerciciosXml.crearXml(doc, System.out);
 		//mostrar xml por consola
 		try (FileOutputStream output = new FileOutputStream("libreria.xml")) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libreria>
     <nombre>Librería Pepe</nombre>
+    <dirección>C/ Amiel 12</dirección>
     <libros>
         <libro isbn="1234567890">
             <titulo>Don Quijote de la Mancha</titulo>
@@ -13,6 +14,10 @@
         <libro isbn="45678910123">
             <titulo>La vida es un sueño</titulo>
             <autor>Pedro Calderón de la Barca</autor>
+        </libro>
+        <libro isbn="8901234567">
+            <titulo>100 años de soledad</titulo>
+            <autor>Gabriel García Márquez</autor>
         </libro>
     </libros>
 </libreria>
