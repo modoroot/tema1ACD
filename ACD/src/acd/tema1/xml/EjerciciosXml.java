@@ -23,54 +23,60 @@ public class EjerciciosXml {
 		EjerciciosXml ejerciciosXml = new EjerciciosXml();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
+		//Creación de doc
 		Document doc = docBuilder.newDocument();
-		
+
+		//Creación de elementos y atributos
 		Element tagLibreria = doc.createElement("libreria");
 		doc.appendChild(tagLibreria);
 
 		Element tagNombre = doc.createElement("nombre");
 		tagLibreria.appendChild(tagNombre);
 		tagNombre.setTextContent("Librería Pepe");
-		
+
 		Element tagLibros = doc.createElement("libros");
 		tagLibreria.appendChild(tagLibros);
-		
+
 		Element tagLibro = doc.createElement("libro");
 		tagLibros.appendChild(tagLibro);
 		tagLibro.setAttribute("isbn", "1234567890");
-		
+		tagLibro.setAttribute("estado", "no se");
+		tagLibro.removeAttribute("estado");
+
 		Element tagTitulo = doc.createElement("titulo"); 
 		tagLibro.appendChild(tagTitulo);
 		tagTitulo.setTextContent("Don Quijote de la Mancha");
-		
+
 		Element tagAutor = doc.createElement("autor");
 		tagLibro.appendChild(tagAutor);
 		tagAutor.setTextContent("Miguel De Cervantes");
-		
+
 		Element tagLibro2 = doc.createElement("libro");
 		tagLibros.appendChild(tagLibro2);
 		tagLibro2.setAttribute("isbn", "2345678901");
-		
+		tagLibro2.setAttribute("estado", "XD");
+
 		Element tagTitulo2  =doc.createElement("titulo");
 		tagLibro2.appendChild(tagTitulo2);
 		tagTitulo2.setTextContent("Lazarillo de Tormes");
-		
+
 		Element tagAutor2 = doc.createElement("autor");
 		tagLibro2.appendChild(tagAutor2);
 		tagAutor2.setTextContent("Anónimo");
-		
+
 		Element tagLibro3 = doc.createElement("libro");
 		tagLibros.appendChild(tagLibro3);
 		tagLibro3.setAttribute("isbn", "45678910123");
-		
+
 		Element tagTitulo3  =doc.createElement("titulo");
 		tagLibro3.appendChild(tagTitulo3);
 		tagTitulo3.setTextContent("La vida es un sueño");
-		
+
 		Element tagAutor3 = doc.createElement("autor");
 		tagLibro3.appendChild(tagAutor3);
 		tagAutor3.setTextContent("Pedro Calderón de la Barca");
+		//Borrar un elemento
+//		tagLibros.removeChild(tagLibro2);
 
 		ejerciciosXml.crearXml(doc, System.out);
 		//mostrar xml por consola
@@ -80,7 +86,7 @@ public class EjerciciosXml {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Método que escribe el xml creado en Java
 	 * @param doc
@@ -88,15 +94,12 @@ public class EjerciciosXml {
 	 * @throws TransformerException
 	 */
 	public void crearXml(Document doc, OutputStream output) throws TransformerException {
-
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-
+		//Formatea el XML
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(output);
-
 		transformer.transform(source, result);
 
 	}
