@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<restaurante>
+	<nombre>Restaurante Yitab</nombre>
+	<direccion>C/Pitu Nº69</direccion>
+	<platos>
+		<plato id="001">
+			<nombre>Huevos Rellenos</nombre>
+			<precio>4.99€</precio>
+			<descripcion>unos huevazos gordos rellenos</descripcion>
+			<calorias>1 kcal</calorias>
+		</plato>
+	</platos>
+</restaurante>
