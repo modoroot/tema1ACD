@@ -26,7 +26,7 @@ public class Plato {
 	 * @param nombre
 	 * @param precio
 	 * @param descripcion
-	 * @param calorias
+	 * @param kilocalorias
 	 */
 	public Plato(int id, String nombre, int precio, String descripcion, int kilocalorias) {
 		this.id = id;
