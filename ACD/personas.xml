@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<personas>
+    <persona id="1">
+        <nombre>Pepe</nombre>
+        <edad>17</edad>
+    </persona>
+    <persona id="2">
+        <nombre>María</nombre>
+        <edad>60</edad>
+    </persona>
+    <persona id="3">
+        <nombre>Juan</nombre>
+        <edad>31</edad>
+    </persona>
+    <persona id="4">
+        <nombre>Paco</nombre>
+        <edad>56</edad>
+    </persona>
+    <persona id="4">
+        <nombre>Paco</nombre>
+        <edad>56</edad>
+    </persona>
+</personas>

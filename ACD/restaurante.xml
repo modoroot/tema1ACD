@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restaurante nombre = "Restaurante Yitab">
+	<platos>
+		<plato id="001">
+			<nombre>Huevos Rellenos</nombre>
+			<precio>4</precio>
+			<descripcion>huevazos gordos</descripcion>
+			<kilocalorias>500</kilocalorias>
+		</plato>
+		<plato id="002">
+			<nombre>Tortilla sin cebolla</nombre>
+			<precio>5</precio>
+			<descripcion>tortilla española sin cebolla (la única válida)</descripcion>
+			<kilocalorias>699</kilocalorias>
+		</plato>
+	</platos>
+</restaurante>
