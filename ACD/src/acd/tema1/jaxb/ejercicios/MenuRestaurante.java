@@ -36,40 +36,37 @@ import org.xml.sax.SAXException;
  * @version 1.0
  */
 public class MenuRestaurante {
+	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException,
-			TransformerFactoryConfigurationError, TransformerException {
-		try {
-			Scanner sc = new Scanner(System.in);
-			int op = 0;
+			TransformerFactoryConfigurationError, TransformerException, JAXBException {
+		int op = 0;
+		do {
+
 			// objeto instanciado que guarda el xml
-			File doc = new File("restaurante.xml");
+			File doc = new File("platos.xml");
 			// menú
 			System.out.println("Selecciona una operación:" + "\n" + "1. Leer documento" + "\n" + "2. Añadir plato"
-					+ "\n" + "3. Eliminar plato" + "\n" + "4. Modificar plato " + "\n" + "Otra tecla para salir"
-					+ "\n");
+					+ "\n" + "3. Eliminar plato" + "\n" + "4. Modificar plato " + "\n" + "5. Salir" + "\n");
 			op = sc.nextInt();
 			switch (op) {
 			case 1:
 				leerDoc(doc);
 				break;
 			case 2:
-				aniadirPlato(doc, new Plato(23, "test nombre", 32, "test desc", 3333));
+				aniadirPlato(doc);
 				break;
 			case 3:
-				borrarPlato("restaurante.xml", "23");
+				borrarPlato();
 				break;
 			case 4:
+				modificarPlato();
 				break;
-			default:
+			case 5:
 				System.exit(0);
 				break;
-
 			}
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
+		} while (op != 5);
 	}
 
 	/**
@@ -80,70 +77,45 @@ public class MenuRestaurante {
 	 * @throws JAXBException
 	 */
 	private static void leerDoc(File doc) throws JAXBException {
-		JAXBContext context = JAXBContext.newInstance(Restaurante.class);
+		JAXBContext context = JAXBContext.newInstance(Platos.class);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		Restaurante restaurante = (Restaurante) unmarshaller.unmarshal(doc);
+		Platos platos = (Platos) unmarshaller.unmarshal(doc);
 		// Con un simple Syso lee todo el XML debido al método toString
-		System.out.println(restaurante);
+		System.out.println(platos);
 	}
-
-//	private static void aniadirPlato(File doc) {
-//		try {
-//			var listaPlatos = new ArrayList<Plato>();
-//			var plato = new Plato();
-//			var platos = new Platos();
-//			System.out.println("Introduce id, nombre, precio, descripcion, kcal:");
-//			plato.setId(22);
-//			plato.setNombre("test nombre");
-//			plato.setPrecio(33);
-//			plato.setDescripcion("test desc");
-//			plato.setKilocalorias(333);
-//			listaPlatos.add(plato);
-//			platos.setListaPlato(listaPlatos);
-//			var context = JAXBContext.newInstance(Platos.class);
-//			var m = context.createMarshaller();
-//			m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-//			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//			m.setProperty(Marshaller.JAXB_FRAGMENT, false);
-//			m.marshal(platos, System.out);
-//			m.marshal(platos, new FileWriter("restaurante.xml", StandardCharsets.UTF_8));
-//		} catch (JAXBException | IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
 
 	/**
 	 * Método que añade un plato según los parámetros pasados por consola
+	 * 
 	 * @param doc
 	 * @param plato
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
-	private static void aniadirPlato(File doc, Plato plato) throws JAXBException, IOException {
-		try {
-			JAXBContext context = JAXBContext.newInstance(Platos.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-			Platos platos = (Platos) unmarshaller.unmarshal(doc);
-			ArrayList<Plato> listaPlatos = platos.getPlatos();
-			//añade al ArrayList el plato
-			listaPlatos.add(plato);
-			Marshaller marshaller = context.createMarshaller();
-			//parámetros de formateo adicionales
-			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
-			//actualiza el xml con la entrada añadida
-			marshaller.marshal(platos, new FileWriter("restaurante.xml", StandardCharsets.UTF_8));
-			//lo muestra por consola
-			marshaller.marshal(platos, System.out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private static void aniadirPlato(File doc) throws JAXBException, IOException {
+		System.out.println("Introduce los datos del nuevo plato (id, nombre, precio, descripcion, kcal:");
+		Plato plato = new Plato(sc.nextInt(),sc.next(),sc.nextInt(),sc.next(),sc.nextInt());
+		JAXBContext context = JAXBContext.newInstance(Platos.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		Platos platos = (Platos) unmarshaller.unmarshal(doc);
+		ArrayList<Plato> listaPlatos = platos.getPlatos();
+		// añade al ArrayList el plato
+		listaPlatos.add(plato);
+		Marshaller marshaller = context.createMarshaller();
+		// parámetros de formateo adicionales
+		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
+		// actualiza el xml con la entrada añadida
+		marshaller.marshal(platos, new FileWriter("platos.xml", StandardCharsets.UTF_8));
+		// lo muestra por consola
+		marshaller.marshal(platos, System.out);
 
 	}
+
 	/**
-	 * Método que borra un plato según el id seleccionado 
+	 * Método que borra un plato según el id seleccionado
+	 * 
 	 * @param doc
 	 * @param id
 	 * @throws SAXException
@@ -152,49 +124,34 @@ public class MenuRestaurante {
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws TransformerException
 	 */
-	private static void borrarPlato(String doc, String id) throws SAXException, IOException,
-			ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException {
-		//carga el XML
+	private static void borrarPlato() throws SAXException, IOException, ParserConfigurationException,
+			TransformerFactoryConfigurationError, TransformerException {
+		String id = "";
+		System.out.println("Introduce el id: ");
+		id = sc.next();
+		// carga el XML
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document document = builder.parse(new File(doc));
-		//busca y elimina el elemento seleccionado a partir del id pasado
+		Document document = builder.parse(new File("platos.xml"));
+		// busca y elimina el elemento seleccionado a partir del id pasado
 		NodeList items = document.getElementsByTagName("plato");
 		for (int i = 0; i < items.getLength(); i++) {
 			Element element = (Element) items.item(i);
-			//busca el elemento con dicho id
+			// busca el elemento con dicho id
 			if (element.getAttribute("id").equalsIgnoreCase(id)) {
-				//borra el elemento
+				// borra el elemento
 				element.getParentNode().removeChild(element);
 			}
 		}
-		//Sobreescribe el xml con el resultado habiendo borrado la entrada con el
-		//id anterior
+		// Sobreescribe el xml con el resultado habiendo borrado la entrada con el
+		// id anterior
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		Result out = new StreamResult(new File(doc));
+		Result out = new StreamResult(new File("platos.xml"));
 		Source input = new DOMSource(document);
 		transformer.transform(input, out);
 	}
-//	public static void anadirPersona(File doc, Persona persona) throws JAXBException, IOException {
-//
-//		JAXBContext context = JAXBContext.newInstance(Personas.class);
-//
-//		Unmarshaller unmarshaller = context.createUnmarshaller();
-//		Personas personas = (Personas) unmarshaller.unmarshal(doc);
-//		ArrayList<Persona> listaPersonas = personas.getPersonas();
-//		
-//		listaPersonas.add(persona);
-//
-//		Marshaller marshaller = context.createMarshaller();
-//		
-//		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-//		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
-//		
-//		
-//		
-//		marshaller.marshal(personas, new FileWriter("personas.xml",StandardCharsets.UTF_8));
-//
-//	}
+	private static void modificarPlato() {
+		
+	}
 
 }
