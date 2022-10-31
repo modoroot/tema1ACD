@@ -73,11 +73,13 @@ public class MenuRestaurante {
 	 * Lee todo el documento a partir de los métodos toString generados en sus
 	 * respectivas clases
 	 * 
-	 * @param doc
+	 * @param doc documento xml
 	 * @throws JAXBException
 	 */
 	private static void leerDoc(File doc) throws JAXBException {
+		// Inicializamos la API de JAXB
 		JAXBContext context = JAXBContext.newInstance(Platos.class);
+		// Deserializamos el XML para que Java pueda leerlo
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		Platos platos = (Platos) unmarshaller.unmarshal(doc);
 		// Con un simple Syso lee todo el XML debido al método toString
@@ -87,17 +89,20 @@ public class MenuRestaurante {
 	/**
 	 * Método que añade un plato según los parámetros pasados por consola
 	 * 
-	 * @param doc
-	 * @param plato
+	 * @param doc documento xml
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
 	private static void aniadirPlato(File doc) throws JAXBException, IOException {
 		System.out.println("Introduce los datos del nuevo plato (id, nombre, precio, descripcion, kcal:");
-		Plato plato = new Plato(sc.nextInt(),sc.next(),sc.nextInt(),sc.next(),sc.nextInt());
+		Plato plato = new Plato(sc.nextInt(), sc.next(), sc.nextInt(), sc.next(), sc.nextInt());
+		// Inicializamos la API de JAXB
 		JAXBContext context = JAXBContext.newInstance(Platos.class);
+		// Deserializamos el XML para que Java pueda leerlo
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		Platos platos = (Platos) unmarshaller.unmarshal(doc);
+		// Creamos un array y lo igualamos a los platos actuales que tiene
+		// contenidos el XML para que no se borren estos
 		ArrayList<Plato> listaPlatos = platos.getPlatos();
 		// añade al ArrayList el plato
 		listaPlatos.add(plato);
@@ -108,7 +113,7 @@ public class MenuRestaurante {
 		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
 		// actualiza el xml con la entrada añadida
 		marshaller.marshal(platos, new FileWriter("platos.xml", StandardCharsets.UTF_8));
-		// lo muestra por consola
+		// Muestra por consola el XML con el nuevo plato añadido
 		marshaller.marshal(platos, System.out);
 
 	}
@@ -116,8 +121,6 @@ public class MenuRestaurante {
 	/**
 	 * Método que borra un plato según el id seleccionado
 	 * 
-	 * @param doc
-	 * @param id
 	 * @throws SAXException
 	 * @throws IOException
 	 * @throws ParserConfigurationException
@@ -128,6 +131,9 @@ public class MenuRestaurante {
 			TransformerFactoryConfigurationError, TransformerException {
 		String id = "";
 		System.out.println("Introduce el id: ");
+		//Introducimos por consola un id. Es String porque usamos el método de String
+		//equals(), pero esto no influye en nada a la hora de visualizarlo en el XML, es decir,
+		//id va a seguir siendo tipo int
 		id = sc.next();
 		// carga el XML
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -150,8 +156,9 @@ public class MenuRestaurante {
 		Source input = new DOMSource(document);
 		transformer.transform(input, out);
 	}
+
 	private static void modificarPlato() {
-		
+
 	}
 
 }
