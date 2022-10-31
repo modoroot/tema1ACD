@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<platos>
+<?xml version="1.0" encoding="UTF-8"?><platos>
     <plato id="1">
         <nombre>Huevos Rellenos</nombre>
         <precio>4</precio>
-        <descripcion>huevazos gordos</descripcion>
+        <descripcion>Huevos rellenos de ingredientes a elegir​</descripcion>
         <kilocalorias>500</kilocalorias>
     </plato>
     <plato id="2">
-        <nombre>Tortilla sin cebolla</nombre>
+        <nombre>Tortilla española</nombre>
         <precio>5</precio>
-        <descripcion>tortilla española sin cebolla</descripcion>
+        <descripcion>Tortilla con patatas cortadas​</descripcion>
         <kilocalorias>699</kilocalorias>
     </plato>
+    
 </platos>

@@ -6,8 +6,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * 
- * @author amna
+ * Clase que define las propiedades y constructores de 
+ * Plato
+ * @author amna // alexdev
  * @version 1.0
  */
 @XmlRootElement(name="plato")
@@ -21,12 +22,12 @@ public class Plato {
 
 	public Plato() {}
 	/**
-	 * 
-	 * @param id
-	 * @param nombre
-	 * @param precio
-	 * @param descripcion
-	 * @param kilocalorias
+	 * Constructor principal
+	 * @param id int
+	 * @param nombre String
+	 * @param precio int
+	 * @param descripcion String
+	 * @param kilocalorias int
 	 */
 	public Plato(int id, String nombre, int precio, String descripcion, int kilocalorias) {
 		this.id = id;
@@ -73,11 +74,6 @@ public class Plato {
 
 	public void setKilocalorias(int kilocalorias) {
 		this.kilocalorias = kilocalorias;
-	}
-	@Override
-	public String toString() {
-		return "Plato [id=" + id + ", nombre=" + nombre + ", precio(euros)=" + precio +"\n"+ ", descripcion=" + descripcion
-				+ ", kcal=" + kilocalorias + "]"+"\n"+"\n";
 	}
 	
 }

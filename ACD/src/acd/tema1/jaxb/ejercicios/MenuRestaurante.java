@@ -32,29 +32,51 @@ import org.xml.sax.SAXException;
  * Clase principal que incorpora un menú que realiza diferentes operaciones
  * sobre el XML
  * 
- * @author amna
+ * @author amna // alexdev
  * @version 1.0
  */
 public class MenuRestaurante {
-	static Scanner sc = new Scanner(System.in);
+	// Flujo de entrada de datos por consola
+	private static Scanner sc = new Scanner(System.in);
+	// objeto de File instanciado que guarda el xml
+	private static File doc = new File("platos.xml");
 
 	public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException,
 			TransformerFactoryConfigurationError, TransformerException, JAXBException {
 		int op = 0;
 		do {
 
-			// objeto instanciado que guarda el xml
-			File doc = new File("platos.xml");
 			// menú
 			System.out.println("Selecciona una operación:" + "\n" + "1. Leer documento" + "\n" + "2. Añadir plato"
 					+ "\n" + "3. Eliminar plato" + "\n" + "4. Modificar plato " + "\n" + "5. Salir" + "\n");
 			op = sc.nextInt();
 			switch (op) {
 			case 1:
-				leerDoc(doc);
+				leerXml();
 				break;
 			case 2:
-				aniadirPlato(doc);
+				System.out.println("Introduce el ID:");
+				int idPlato = sc.nextInt();
+				String saltolinea0 = sc.nextLine();
+				System.out.println("Introduce el nombre:");
+				String nombrePlato = sc.nextLine();
+				System.out.println("Introduce el precio:");
+				int precioPlato = sc.nextInt();
+				String saltolinea1 = sc.nextLine();
+				System.out.println("Introduce la descripción del plato:");
+				String descripcionPlato = sc.nextLine();
+				System.out.println("Introduces las kcal:");
+				int kcalPlato = sc.nextInt();
+
+
+				Plato plato = new Plato(idPlato, nombrePlato, precioPlato, descripcionPlato, kcalPlato);
+
+				try {
+					aniadirPlato(doc, plato);
+				} catch (IOException e) {
+					System.out.println("El plato no se ha podido crear correctamente...");
+					e.printStackTrace();
+				}
 				break;
 			case 3:
 				borrarPlato();
@@ -70,20 +92,25 @@ public class MenuRestaurante {
 	}
 
 	/**
-	 * Lee todo el documento a partir de los métodos toString generados en sus
-	 * respectivas clases
+	 * Lee todo el XML a partir de los métodos toString generados en sus respectivas
+	 * clases
 	 * 
 	 * @param doc documento xml
 	 * @throws JAXBException
 	 */
-	private static void leerDoc(File doc) throws JAXBException {
+	private static void leerXml() throws JAXBException {
 		// Inicializamos la API de JAXB
 		JAXBContext context = JAXBContext.newInstance(Platos.class);
 		// Deserializamos el XML para que Java pueda leerlo
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		Platos platos = (Platos) unmarshaller.unmarshal(doc);
-		// Con un simple Syso lee todo el XML debido al método toString
-		System.out.println(platos);
+		ArrayList<Plato> listaPlatos = platos.getPlatos();
+		for (Plato p : listaPlatos) {
+			System.out.println("ID: " + p.getId() + "\n" + "Nombre del plato: " + p.getNombre() + "\n" + "Precio(€): "
+					+ p.getPrecio() + " euros" + "\n" + "Descripción: " + p.getDescripcion() + "\n" + "Kilocalorías: "
+					+ p.getKilocalorias() + " kcal" +"\n");
+		}
+
 	}
 
 	/**
@@ -93,28 +120,28 @@ public class MenuRestaurante {
 	 * @throws JAXBException
 	 * @throws IOException
 	 */
-	private static void aniadirPlato(File doc) throws JAXBException, IOException {
-		System.out.println("Introduce los datos del nuevo plato (id, nombre, precio, descripcion, kcal:");
-		Plato plato = new Plato(sc.nextInt(), sc.next(), sc.nextInt(), sc.next(), sc.nextInt());
-		// Inicializamos la API de JAXB
-		JAXBContext context = JAXBContext.newInstance(Platos.class);
-		// Deserializamos el XML para que Java pueda leerlo
-		Unmarshaller unmarshaller = context.createUnmarshaller();
-		Platos platos = (Platos) unmarshaller.unmarshal(doc);
-		// Creamos un array y lo igualamos a los platos actuales que tiene
-		// contenidos el XML para que no se borren estos
-		ArrayList<Plato> listaPlatos = platos.getPlatos();
-		// añade al ArrayList el plato
-		listaPlatos.add(plato);
-		Marshaller marshaller = context.createMarshaller();
-		// parámetros de formateo adicionales
-		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
-		// actualiza el xml con la entrada añadida
-		marshaller.marshal(platos, new FileWriter("platos.xml", StandardCharsets.UTF_8));
-		// Muestra por consola el XML con el nuevo plato añadido
-		marshaller.marshal(platos, System.out);
+	private static void aniadirPlato(File doc, Plato plato) throws JAXBException, IOException {
+		try {
+			JAXBContext context = JAXBContext.newInstance(Platos.class);
+
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			Platos platos = (Platos) unmarshaller.unmarshal(doc);
+			ArrayList<Plato> listaPlatos = platos.getPlatos();
+
+			listaPlatos.add(plato);
+
+			Marshaller marshaller = context.createMarshaller();
+
+			marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
+
+			marshaller.marshal(platos, new FileWriter("platos.xml",StandardCharsets.UTF_8));
+			marshaller.marshal(platos, System.out);
+		} catch (Exception e) {
+			System.out.println("El plato no se ha podido añadir...");
+			e.printStackTrace();
+		}
 
 	}
 
@@ -131,9 +158,10 @@ public class MenuRestaurante {
 			TransformerFactoryConfigurationError, TransformerException {
 		String id = "";
 		System.out.println("Introduce el id: ");
-		//Introducimos por consola un id. Es String porque usamos el método de String
-		//equals(), pero esto no influye en nada a la hora de visualizarlo en el XML, es decir,
-		//id va a seguir siendo tipo int
+		// Introducimos por consola un id. Es String porque usamos el método de String
+		// equals(), pero esto no influye en nada a la hora de visualizarlo en el XML,
+		// es decir,
+		// id va a seguir siendo tipo int
 		id = sc.next();
 		// carga el XML
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -152,7 +180,7 @@ public class MenuRestaurante {
 		// Sobreescribe el xml con el resultado habiendo borrado la entrada con el
 		// id anterior
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		Result out = new StreamResult(new File("platos.xml"));
+		Result out = new StreamResult(doc);
 		Source input = new DOMSource(document);
 		transformer.transform(input, out);
 	}

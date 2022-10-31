@@ -6,8 +6,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * 
- * @author amna
+ * Clase que define las propiedades y constructores de 
+ * Platos
+ * @author amna // alexdev
  * @version 1.0
  */
 @XmlRootElement(name="platos")
@@ -15,6 +16,10 @@ public class Platos {
 	private ArrayList<Plato> platos = new ArrayList<Plato>();
 	            
 	public Platos() {}
+	/**
+	 * Constructor principal
+	 * @param platos guarda en un ArrayList todos los platos del XML
+	 */
 	public Platos(ArrayList<Plato> platos) {
 		this.platos = platos;
 	}
@@ -25,11 +30,5 @@ public class Platos {
 	public void setListaPlato(ArrayList<Plato> plato) {
 		this.platos = plato;
 	}
-	@Override
-	public String toString() {
-		return ""+platos;
-	}
-
-	
 	
 }
