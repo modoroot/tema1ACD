@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * Clase que define las propiedades y constructores de 
  * Plato
- * @author amna // alexdev
+ * @author Antonio Miguel Núñez // Alejandro Ruiz Bonillo
  * @version 1.0
  */
 @XmlRootElement(name="plato")
