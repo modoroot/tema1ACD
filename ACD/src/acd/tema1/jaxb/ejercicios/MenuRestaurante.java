@@ -68,7 +68,6 @@ public class MenuRestaurante {
 				System.out.println("Introduces las kcal:");
 				int kcalPlato = sc.nextInt();
 
-
 				Plato plato = new Plato(idPlato, nombrePlato, precioPlato, descripcionPlato, kcalPlato);
 
 				try {
@@ -82,7 +81,10 @@ public class MenuRestaurante {
 				borrarPlato();
 				break;
 			case 4:
-				modificarPlato();
+				System.out.println("Introduce el ID del plato a modificar:");
+				String modificacionId = sc.next();
+				String saltoLinea = sc.nextLine();
+				modificarPlato(modificacionId);
 				break;
 			case 5:
 				System.exit(0);
@@ -108,7 +110,7 @@ public class MenuRestaurante {
 		for (Plato p : listaPlatos) {
 			System.out.println("ID: " + p.getId() + "\n" + "Nombre del plato: " + p.getNombre() + "\n" + "Precio(€): "
 					+ p.getPrecio() + " euros" + "\n" + "Descripción: " + p.getDescripcion() + "\n" + "Kilocalorías: "
-					+ p.getKilocalorias() + " kcal" +"\n");
+					+ p.getKilocalorias() + " kcal" + "\n");
 		}
 
 	}
@@ -136,7 +138,7 @@ public class MenuRestaurante {
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			marshaller.setProperty(Marshaller.JAXB_FRAGMENT, false);
 
-			marshaller.marshal(platos, new FileWriter("platos.xml",StandardCharsets.UTF_8));
+			marshaller.marshal(platos, new FileWriter("platos.xml", StandardCharsets.UTF_8));
 			marshaller.marshal(platos, System.out);
 		} catch (Exception e) {
 			System.out.println("El plato no se ha podido añadir...");
@@ -184,9 +186,86 @@ public class MenuRestaurante {
 		Source input = new DOMSource(document);
 		transformer.transform(input, out);
 	}
+	/**
+	 * Método que modifica una entrada de un plato elegido por ID
+	 * @param idModificarPlato
+	 */
+	private static void modificarPlato(String idModificarPlato) {
+		String archivoXml = "platos.xml";
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(archivoXml);
 
-	private static void modificarPlato() {
+			NodeList platos = doc.getElementsByTagName("plato");
 
+			System.out.println("¿QUÉ DESEAS MODIFICAR DEL PLATO [ID=" + idModificarPlato + "]?");
+			System.out.println("1. Nombre \n2. Descripción \n3. Precio \n4. Kcal \n5. Salir");
+			int opcionModificarPlato = sc.nextInt();
+			String saltoLinea0 = sc.nextLine();
+
+			switch (opcionModificarPlato) {
+			case 1:
+				String modificarNombrePlato = sc.nextLine();
+				for (int i = 0; i < platos.getLength(); i++) {
+					Element plato = (Element) platos.item(i);
+					if (plato.getAttribute("id").equalsIgnoreCase(idModificarPlato)) {
+						Element nombrePlato = (Element) plato.getElementsByTagName("nombre").item(0);
+						nombrePlato.setTextContent(modificarNombrePlato);
+					}
+				}
+				System.out.println("\nNombre de plato [ID=" + idModificarPlato + "] ha sido modificado a: '"
+						+ modificarNombrePlato + "'");
+				break;
+			case 2:
+				String modificarDescripcionPlato = sc.nextLine();
+				for (int i = 0; i < platos.getLength(); i++) {
+					Element plato = (Element) platos.item(i);
+					if (plato.getAttribute("id").equalsIgnoreCase(idModificarPlato)) {
+						Element descripcionPlato = (Element) plato.getElementsByTagName("descripcion").item(0);
+						descripcionPlato.setTextContent(modificarDescripcionPlato);
+					}
+				}
+				System.out.println("\nDescripción de plato [ID=" + idModificarPlato + "] ha sido modificada a: '"
+						+ modificarDescripcionPlato + "'");
+				break;
+			case 3:
+				String modificarPrecioPlato = sc.next();
+				for (int i = 0; i < platos.getLength(); i++) {
+					Element plato = (Element) platos.item(i);
+					if (plato.getAttribute("id").equalsIgnoreCase(idModificarPlato)) {
+						Element precioPlato = (Element) plato.getElementsByTagName("precio").item(0);
+						precioPlato.setTextContent(modificarPrecioPlato);
+					}
+				}
+				System.out.println("\nPrecio de plato [ID=" + idModificarPlato + "] ha sido modificado a: "
+						+ modificarPrecioPlato + "€");
+				break;
+			case 4:
+				String modificarKcalPlato = sc.next();
+				for (int i = 0; i < platos.getLength(); i++) {
+					Element plato = (Element) platos.item(i);
+					if (plato.getAttribute("id").equalsIgnoreCase(idModificarPlato)) {
+						Element kcalPlato = (Element) plato.getElementsByTagName("kilocalorias").item(0);
+						kcalPlato.setTextContent(modificarKcalPlato);
+					}
+				}
+				System.out.println("\nKcalorias de plato [ID=" + idModificarPlato + "] han sido modificadas a: "
+						+ modificarKcalPlato + " kcal");
+				break;
+			default:
+				System.out.println("No se ha modificado nada...");
+				break;
+			}
+
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			Result out = new StreamResult(new File(archivoXml));
+			Source input = new DOMSource(doc);
+			transformer.transform(input, out);
+		} catch (Exception e) {
+			System.out.println("No se ha podido modificar correctamente.");
+			e.printStackTrace();
+		}
 	}
 
 }

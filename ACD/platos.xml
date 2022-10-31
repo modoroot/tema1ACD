@@ -11,5 +11,10 @@
         <descripcion>Tortilla con patatas cortadas​</descripcion>
         <kilocalorias>699</kilocalorias>
     </plato>
-    
+    <plato id="4545">
+        <nombre>test mod nombre</nombre>
+        <precio>34</precio>
+        <descripcion>asd asd</descripcion>
+        <kilocalorias>445</kilocalorias>
+    </plato>
 </platos>
