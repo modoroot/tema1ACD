@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  * Clase principal que incorpora un menú que realiza diferentes operaciones
  * sobre el XML
  * 
- * @author Antonio Miguel Núñez // Alejandro Ruiz Bonillo
+ * @author Antonio Miguel Núñez Ariza // Alejandro Ruiz Bonillo
  * @version 1.0
  */
 public class MenuRestaurante {
